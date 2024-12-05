@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "ec2-flask-api"
+version = "0.1.0"
+description = "flask api on ec2"
+authors = ["CarlosHdez"]
+readme = "README.md"
+packages = [{include = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+flask = "^3.1.0"
+gunicorn = "^23.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
