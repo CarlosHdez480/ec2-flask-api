@@ -144,3 +144,21 @@ deploy-image:
 	@docker build -t $(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_DEFAULT_REGION).amazonaws.com/$(ECR_REPOSITORY_NAME):latest .
 	@aws ecr get-login-password --region $(AWS_DEFAULT_REGION) | docker login --username AWS --password-stdin $(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_DEFAULT_REGION).amazonaws.com
 	@docker push $(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_DEFAULT_REGION).amazonaws.com/$(ECR_REPOSITORY_NAME):latest
+
+
+## Clean
+
+clean:
+	@cd $(INFRA_DIR) && \
+	del /f /s /q .terraform 1>nul && \
+	rmdir /s /q .terraform && \
+	del /s /q .terraform.lock.hcl
+
+clean-back:
+	cd $(INFRA_DIR_BACKEND) && \
+	del /f /s /q .terraform 1>nul && \
+	rmdir /s /q .terraform && \
+	del /s /q .terraform.lock.hcl && \
+	del /s /q tfplan && \
+	del /s /q terraform.tfstate && \
+	del /s /q terraform.tfstate.backup
