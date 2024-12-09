@@ -1,6 +1,6 @@
 resource "aws_ecr_repository" "flask_api" {
-  name = var.repository_name
-  force_delete         = true
+  name         = var.repository_name
+  force_delete = true
   image_scanning_configuration {
     scan_on_push = true
   }

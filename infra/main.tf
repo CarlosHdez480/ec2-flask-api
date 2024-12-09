@@ -3,10 +3,11 @@ resource "aws_security_group" "allow_http" {
   description = "Allow HTTP traffic"
 
   ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["89.129.99.43/32"]
+    from_port       = 5000
+    to_port         = 5000
+    protocol        = "tcp"
+    security_groups = [aws_security_group.alb_sg.id]
+    description     = "Allow HTTP traffic from Load Balancer"
   }
 
   egress {
