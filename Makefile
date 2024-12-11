@@ -55,6 +55,12 @@ delete:
 debug:
 	@docker run -it --entrypoint /bin/bash $(CONTAINER_NAME)
 
+local-compose:
+	@docker-compose up --build -d
+
+down-compose:
+	@docker-compose down
+
 ## Terraform methods
 
 init-back:

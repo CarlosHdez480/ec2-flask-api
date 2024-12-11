@@ -29,16 +29,12 @@ resource "aws_instance" "flask_service" {
   iam_instance_profile   = aws_iam_instance_profile.ec2_profile.name
   vpc_security_group_ids = [aws_security_group.allow_http.id]
 
-  user_data = <<-EOF
-              #!/bin/bash
-              yum update -y
-              yum install -y docker
-              service docker start
-              usermod -a -G docker ec2-user
-              $(aws ecr get-login-password --region ${data.aws_region.current.name} | docker login --username AWS --password-stdin ${data.aws_caller_identity.current.account_id}.dkr.ecr.us-east-1.amazonaws.com)
-              docker pull ${data.aws_caller_identity.current.account_id}.dkr.ecr.us-east-1.amazonaws.com/${var.repository_name}:latest
-              docker run -d -p 80:5000 ${data.aws_caller_identity.current.account_id}.dkr.ecr.us-east-1.amazonaws.com/${var.repository_name}:latest
-              EOF
+  user_data = templatefile("./scripts/user_data.sh",
+  {
+    ecr_registry = join(".", ["${data.aws_caller_identity.current.id}","dkr.ecr.us-east-1.amazonaws.com"])
+    image_name = var.repository_name
+    region = data.aws_region.current.name
+  })
 
   tags = {
     project = "flask-api"

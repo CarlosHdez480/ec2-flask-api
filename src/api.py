@@ -18,8 +18,7 @@ def hello(name):
 @app.route("/healthcheck")
 def healthcheck():
     """healthcheck api endpoint"""
-    data = {"service_status": "Ok"}
-    return jsonify(data)
+    return jsonify(status="OK"), 200
 
 
 if __name__ == "__main__":

@@ -44,3 +44,10 @@ resource "aws_iam_instance_profile" "ec2_profile" {
   name = "ec2-flask-profile"
   role = aws_iam_role.ec2_role.name
 }
+
+
+### Attach SSM Managed Policy to IAM Role ###
+resource "aws_iam_role_policy_attachment" "ssm_policy_attachment" {
+  role       = aws_iam_role.ec2_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
